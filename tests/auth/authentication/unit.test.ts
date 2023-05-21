@@ -1,3 +1,6 @@
+import '../../database/mock';
+import '../../cache/mock';
+
 import {
   ACCESS_TOKEN,
   addHeaders,
@@ -12,7 +15,7 @@ import app from '../../../src/app';
 import supertest from 'supertest';
 
 describe('authentication validation', () => {
-  const endpoint = '/v1/profile/my/test';
+  const endpoint = '/profile/my/test';
   const request = supertest(app);
 
   beforeEach(() => {
@@ -30,14 +33,20 @@ describe('authentication validation', () => {
   });
 
   it('Should response with 400 if Authorization header do not have Bearer', async () => {
-    const response = await addHeaders(request.get(endpoint)).set('Authorization', '123');
+    const response = await addHeaders(request.get(endpoint)).set(
+      'Authorization',
+      '123',
+    );
     expect(response.status).toBe(400);
     expect(response.body.message).toMatch(/authorization/);
     expect(getAccessTokenSpy).not.toBeCalled();
   });
 
   it('Should response with 401 if wrong Authorization header is provided', async () => {
-    const response = await addHeaders(request.get(endpoint)).set('Authorization', 'Bearer 123');
+    const response = await addHeaders(request.get(endpoint)).set(
+      'Authorization',
+      'Bearer 123',
+    );
     expect(response.status).toBe(401);
     expect(response.body.message).toMatch(/token/i);
     expect(getAccessTokenSpy).toBeCalledTimes(1);

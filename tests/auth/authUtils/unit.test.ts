@@ -17,7 +17,7 @@ describe('authUtils validateTokenData tests', () => {
       tokenInfo.audience,
       'abc',
       ACCESS_TOKEN_KEY,
-      tokenInfo.accessTokenValidityDays,
+      tokenInfo.accessTokenValidity,
     );
 
     try {
@@ -33,7 +33,7 @@ describe('authUtils validateTokenData tests', () => {
       tokenInfo.audience,
       new Types.ObjectId().toHexString(),
       '123',
-      tokenInfo.accessTokenValidityDays,
+      tokenInfo.accessTokenValidity,
     );
 
     try {
@@ -49,7 +49,7 @@ describe('authUtils validateTokenData tests', () => {
       tokenInfo.audience,
       new Types.ObjectId().toHexString(), // Random Key
       ACCESS_TOKEN_KEY,
-      tokenInfo.accessTokenValidityDays,
+      tokenInfo.accessTokenValidity,
     );
 
     const validatedPayload = validateTokenData(payload);
@@ -66,7 +66,11 @@ describe('authUtils createTokens function', () => {
   it('Should process and return accessToken and refreshToken', async () => {
     const userId = new Types.ObjectId(); // Random Key
 
-    const tokens = await createTokens({ _id: userId } as User, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY);
+    const tokens = await createTokens(
+      { _id: userId } as User,
+      ACCESS_TOKEN_KEY,
+      REFRESH_TOKEN_KEY,
+    );
 
     expect(tokens).toHaveProperty('accessToken');
     expect(tokens).toHaveProperty('refreshToken');

@@ -41,21 +41,20 @@ export const mockKeystoreFindForKey = jest.fn(
 );
 
 jest.mock('../../../src/database/repository/UserRepo', () => ({
-  get findById() {
-    return mockUserFindById;
-  },
+  findById: mockUserFindById,
 }));
 
 jest.mock('../../../src/database/repository/KeystoreRepo', () => ({
-  get findforKey() {
-    return mockKeystoreFindForKey;
-  },
+  findforKey: mockKeystoreFindForKey,
 }));
 
 JWT.validate = mockJwtValidate;
 
 export const addHeaders = (request: any) =>
-  request.set('Content-Type', 'application/json').set('x-api-key', API_KEY).timeout(2000);
+  request
+    .set('Content-Type', 'application/json')
+    .set('x-api-key', API_KEY)
+    .timeout(2000);
 
 export const addAuthHeaders = (request: any, accessToken = ACCESS_TOKEN) =>
   request

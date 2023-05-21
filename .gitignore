@@ -22,4 +22,17 @@ coverage
 
 # Environment varibles
 *.env
-*.env.*
+*.env.test
+*.env copy
+
+#keys
+keys/*
+!keys/*.md
+!keys/*.example
+
+#temp
+temp
+.DS_Store
+
+*.save
+*.save.*

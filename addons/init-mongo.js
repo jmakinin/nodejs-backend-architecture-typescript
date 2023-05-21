@@ -10,8 +10,9 @@ function seed(dbName, user, password) {
   db.createCollection('roles');
 
   db.api_keys.insert({
-    metadata: 'To be used by the xyz vendor',
     key: 'GCMUDiuY5a7WvyUNt9n3QztToSHzK7Uj',
+    permissions: ['GENERAL'],
+    comments: ['To be used by the xyz vendor'],
     version: 1,
     status: true,
     createdAt: new Date(),
@@ -19,12 +20,45 @@ function seed(dbName, user, password) {
   });
 
   db.roles.insertMany([
-    { code: 'LEARNER', status: true, createdAt: new Date(), updatedAt: new Date() },
-    { code: 'WRITER', status: true, createdAt: new Date(), updatedAt: new Date() },
-    { code: 'EDITOR', status: true, createdAt: new Date(), updatedAt: new Date() },
-    { code: 'ADMIN', status: true, createdAt: new Date(), updatedAt: new Date() },
+    {
+      code: 'LEARNER',
+      status: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      code: 'WRITER',
+      status: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      code: 'EDITOR',
+      status: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      code: 'ADMIN',
+      status: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
   ]);
+
+  db.users.insert({
+    name: 'Admin',
+    email: 'admin@xyz.com',
+    password: '$2a$10$psWmSrmtyZYvtIt/FuJL1OLqsK3iR1fZz5.wUYFuSNkkt.EOX9mLa', // hash of password: changeit
+    roles: db.roles
+      .find({})
+      .toArray()
+      .map((role) => role._id),
+    status: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
 }
 
-seed('afteracademy-blog-db', 'afteracademy-blog-db-user', 'changeit');
-seed('afteracademy-blog-test-db', 'afteracademy-blog-test-db-user', 'changeit');
+seed('blogs-db', 'blogs-db-user', 'changeit');
+seed('blogs-test-db', 'blogs-test-db-user', 'changeit');

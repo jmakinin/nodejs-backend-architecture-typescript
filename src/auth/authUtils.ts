@@ -7,7 +7,8 @@ import { tokenInfo } from '../config';
 
 export const getAccessToken = (authorization?: string) => {
   if (!authorization) throw new AuthFailureError('Invalid Authorization');
-  if (!authorization.startsWith('Bearer ')) throw new AuthFailureError('Invalid Authorization');
+  if (!authorization.startsWith('Bearer '))
+    throw new AuthFailureError('Invalid Authorization');
   return authorization.split(' ')[1];
 };
 
@@ -37,7 +38,7 @@ export const createTokens = async (
       tokenInfo.audience,
       user._id.toString(),
       accessTokenKey,
-      tokenInfo.accessTokenValidityDays,
+      tokenInfo.accessTokenValidity,
     ),
   );
 
@@ -49,7 +50,7 @@ export const createTokens = async (
       tokenInfo.audience,
       user._id.toString(),
       refreshTokenKey,
-      tokenInfo.refreshTokenValidityDays,
+      tokenInfo.refreshTokenValidity,
     ),
   );
 
